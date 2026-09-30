@@ -1,0 +1,96 @@
+{
+  "beforeVersion": "2.0",
+  "afterVersion": "2.1",
+  "cutoff": "2026-09-29",
+  "oldRebound": {
+    "from": "2020-07",
+    "to": "2020-08",
+    "fromScore": 0.1336931841611554,
+    "toScore": 5.402425807302186,
+    "contributions": {
+      "inflation": 0.7141309096995113,
+      "employment": 2.4847960314940325,
+      "growth": 2.0508858335577673,
+      "policy": 0.018919848389720065
+    },
+    "fromInputs": {
+      "pceYoY": 0.9474945027441617,
+      "pce3mAnnual": -0.27932079669976684,
+      "unemployment": 11.1,
+      "unemploymentChange3m": 6.699999999999999,
+      "payroll3mAnnual": -30.804285464347338,
+      "claimsPayrollPercent": 0.9930915371329878,
+      "production2yAnnual": -5.080490144478301,
+      "production3mAnnual": -24.244206577207372,
+      "policyRate": 0.1,
+      "policyChange3m": 0.05
+    },
+    "toInputs": {
+      "pceYoY": 1.2547185807223027,
+      "pce3mAnnual": 3.4461453091654493,
+      "unemployment": 10.2,
+      "unemploymentChange3m": -4.5,
+      "payroll3mAnnual": 31.673993840612447,
+      "claimsPayrollPercent": 0.7651416371738476,
+      "production2yAnnual": -3.984270254421307,
+      "production3mAnnual": 45.47065929229619,
+      "policyRate": 0.09,
+      "policyChange3m": 0.039999999999999994
+    }
+  },
+  "months": [
+    {
+      "date": "2020-03",
+      "oldScore": 9.020593840238924,
+      "oldRaw": 74.06453910343707,
+      "newScore": 8.256109207504025,
+      "newRaw": 70.89886951585295
+    },
+    {
+      "date": "2020-04",
+      "oldScore": 5.182231649468069,
+      "oldRaw": 58.353956058316,
+      "newScore": 5.206827805872445,
+      "newRaw": 60.643943722494825
+    },
+    {
+      "date": "2020-05",
+      "oldScore": 1.215452439338085,
+      "oldRaw": 42.117756579211836,
+      "newScore": 0.17134724439755267,
+      "newRaw": 43.70930480586611
+    },
+    {
+      "date": "2020-06",
+      "oldScore": 0,
+      "oldRaw": 37.142856990129275,
+      "newScore": 0,
+      "newRaw": 43.133053209259415
+    },
+    {
+      "date": "2020-07",
+      "oldScore": 0.1336931841611554,
+      "oldRaw": 37.690068995651,
+      "newScore": 1.948715384103867,
+      "newRaw": 49.686706029123044
+    },
+    {
+      "date": "2020-08",
+      "oldScore": 5.402425807302186,
+      "oldRaw": 59.25522030352488,
+      "newScore": 4.783016363682811,
+      "newRaw": 59.21863909573742
+    },
+    {
+      "date": "2020-09",
+      "oldScore": 5.667345739062304,
+      "oldRaw": 60.33954908266734,
+      "newScore": 4.999079381634298,
+      "newRaw": 59.94527266081146
+    }
+  ],
+  "newWindowRawRange": {
+    "low": 43.133053209259415,
+    "high": 76.76368430769138
+  }
+}
