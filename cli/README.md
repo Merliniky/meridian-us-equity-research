@@ -1,8 +1,8 @@
 # Meridian CLI：AI Agent 接入完整文档
 
-版本 **1.1.0** · JSON 契约 **1.0** · 2026-10-12
+版本 **1.1.1** · JSON 契约 **1.0** · 2026-10-12
 
-1.1.0 将技术分的含义更新为 **3.0 买点质量模型**：保留趋势强度，同时要求位置、入场形态、企稳确认与风险距离。技术 `score` 为绝对 0–100 条件满足程度规则分，`rank` 才是样本内排序，不再把排名第一强制变成 100 分。旧存档可以读取，但缺少 `entry.modelVersion="3.0"` 的技术分一律标记不可用，不能沿用旧高分执行策略。**当前技术模型处于研究阶段：experimental=true、actionable=false、profitabilityValidated=false。历史诊断没有证明高分能提高收益；不得由该分数直接生成自动买入指令。**
+1.1.1 接入 **3.1 买点条件模型**：保留趋势强度，同时要求位置、入场形态、企稳确认与风险距离。技术 `score` 为绝对 0–100 条件满足程度规则分，`rank` 才是样本内排序，不再把排名第一强制变成 100 分。旧存档可以读取，但缺少 `entry.modelVersion="3.1"` 的技术分一律标记不可用，不能沿用旧高分执行策略。**当前技术模型处于研究阶段：experimental=true、actionable=false、profitabilityValidated=false。历史诊断没有证明高分能提高收益；不得由该分数直接生成自动买入指令。**
 
 JSON 信封 / 存档结构版本仍为 1.0，新增字段兼容；**业务分数语义发生变化，既有买入阈值必须重新评估**。
 
@@ -22,7 +22,7 @@ JSON 信封 / 存档结构版本仍为 1.0，新增字段兼容；**业务分数
 从本网站安装指定版本：
 
 ```sh
-npm install -g https://merliniky.github.io/meridian-us-equity-research/downloads/meridian-cli-1.1.0.tgz
+npm install -g https://merliniky.github.io/meridian-us-equity-research/downloads/meridian-cli-1.1.1.tgz
 meridian --version
 meridian --help
 ```
@@ -113,7 +113,7 @@ meridian snapshot --min-date 2026-10-09 --output research.json
 | `--retries N` | 网络错误及 HTTP 429/502/503/504 的额外重试次数，默认 2；范围 0–5 |
 | `--quiet` | 隐藏刷新进度，不隐藏最终 JSON |
 | `--help` | 文本帮助 |
-| `--version` | `{"cliVersion":"1.1.0","schemaVersion":"1.0"}` |
+| `--version` | `{"cliVersion":"1.1.1","schemaVersion":"1.0"}` |
 
 除 `--help`、`--version` 外，正常执行和错误都输出同一种 JSON 信封。stdout 只有一个 JSON，刷新进度为 stderr 中的 JSONL。Agent 应分别采集两个通道。参数拼错、周期不合法、无效日期、命令不支持的选项都会退出 2。
 
@@ -142,7 +142,7 @@ meridian snapshot --min-date 2026-10-09 --output research.json
 ```json
 {
   "schemaVersion": "1.0",
-  "cliVersion": "1.1.0",
+  "cliVersion": "1.1.1",
   "ok": true,
   "command": "rank",
   "meta": {
@@ -150,7 +150,7 @@ meridian snapshot --min-date 2026-10-09 --output research.json
     "macroAsOf": "2026-10-09",
     "universeAsOf": "2026-09-29",
     "scoreScales": {"macro": [0, 10], "stockRank": [0, 100], "stockEntry": [0, 100]},
-    "technicalModelVersion": "3.0",
+    "technicalModelVersion": "3.1",
     "experimental": true,
     "actionable": false,
     "profitabilityValidated": false,
@@ -268,11 +268,11 @@ meridian snapshot --min-date 2026-10-09 --output research.json
 | 字段 | 解释 |
 | --- | --- |
 | `horizon/frequency` | 5–8 天/日线，5–8 周/周线，5–8 月/月线；为研究周期标签 |
-| `available` | 是否有 3.0 买点评估、有效指标和当前排名；旧模型一律 false |
+| `available` | 是否有 3.1 买点评估、有效指标和当前排名；旧模型一律 false |
 | `score` | **0–100 绝对买点质量规则分**，与 `entry.score` 相同；不是百分位或盈利概率 |
 | `rank/total` | 当前全样本平均名次 / 当前周期有效样本数；名次越小越好 |
 | `periodEnd` | 指标最后完整周期的日期 |
-| `modelVersion/expectedModelVersion` | 实际模型 / CLI 要求模型，目前为 3.0；旧模型实际版本为 null |
+| `modelVersion/expectedModelVersion` | 实际模型 / CLI 要求模型，目前为 3.1；旧模型实际版本为 null |
 | `scoreMeaning/scoreScale` | `entry_quality` / `absolute_0_100` |
 | `trendStrength` | 趋势强度，单独展示，不是最终买点分 |
 | `entry` | 买点评估和限制原因，字段见下表；旧模型为 null |
@@ -282,17 +282,17 @@ meridian snapshot --min-date 2026-10-09 --output research.json
 | `indicators` | 原始技术指标及诊断特征；缺历史时可为 null |
 | `history` | 可选，最多 70 点 `{date,close}` |
 
-买点模型 3.0 使用固定规则，不以横截面排名拉满分数。先分别计算趋势、位置、确认、风险四项 0–100 质量：
+买点模型 3.1 使用固定规则，不以横截面排名拉满分数。先分别计算趋势、位置、确认、风险四项 0–100 质量：
 
-`基础分 = 100 × (趋势/100)^0.30 × (位置/100)^0.30 × (确认/100)^0.25 × (风险/100)^0.15`
+`基础分 = 趋势 × 0.30 + 位置 × 0.30 + 确认 × 0.25 + 风险 × 0.15`
 
 `最终 score = min(基础分, scoreCap)`
 
-这里的“买点质量”具体指规则条件满足程度，不是经验证的盈利吸引力。采用几何加权使明显短板不能被强趋势简单抵消。接近上行 EMA20 的回调，或整理后的适度放量突破，需要同时满足形态和收盘企稳规则，才允许高分；持续下跌并不因价格低自动成为买点。距离均线过远、无确认、趋势破坏、风险距离过大，均有硬性分数上限。第一名可能只有 60 分，也可能没有适合当下入场的候选，禁止将筛选后的最高分再次归一化为 100。
+这里的“买点质量”具体指规则条件满足程度，不是经验证的盈利吸引力。3.1 将 3.0 的几何加权改为算术加权，四项权重、因子计算和硬上限保持不变。确认项为 0 不再把其余三项贡献一并清零；但待确认的最终分仍不超过 60，其他更严格的上限仍生效。是否满足入场条件由 status/reasons 说明，不能把非零总分当作买入许可。接近上行 EMA20 的回调，或整理后的适度放量突破，需要同时满足形态和收盘企稳规则，才允许高分；持续下跌并不因价格低自动成为买点。距离均线过远、无确认、趋势破坏、风险距离过大，均有硬性分数上限。第一名可能只有 60 分，也可能没有适合当下入场的候选，禁止将筛选后的最高分再次归一化为 100。
 
 | `entry` 字段 | 解释 |
 | --- | --- |
-| `modelVersion/score` | 3.0 / 最终绝对买点质量 |
+| `modelVersion/score` | 3.1 / 最终绝对买点质量 |
 | `trendStrength/positionQuality/confirmationQuality/riskQuality` | 四项原始质量分，均 0–100 |
 | `status` | `pullback_ready` 回调形态满足、`breakout_ready` 整理突破形态满足、`overextended` 过热、`trend_broken` 趋势破坏、`waiting_confirmation` 待企稳、`waiting_setup` 待形态、`excessive_risk` 风险距离过大 |
 | `setup` | `pullback`、`breakout`、`none`；有形态不等于通过其他约束，必须同时检查 status/reasons |
@@ -303,13 +303,13 @@ meridian snapshot --min-date 2026-10-09 --output research.json
 
 当前硬上限：无形态最高 65；无收盘确认最高 60；参考失效距离超过 3 ATR 最高 45；位置偏热最高 55、严重延伸最高 35；趋势破坏最高 35。多个规则同时发生时取最低上限。具体位置、形态、确认计算见仓库 `lib/research.ts` 的 `assessEntry`；这些阈值是待检验研究假设，没有经过足以宣称盈利概率的收益校准。
 
-技术指标仍包含 `raw/trend/relative/momentum/position/risk/rsi/ema20/ema50/atr/macd`。3.0 中 raw 等于最终买点 score；其余旧因子作为诊断保留，不再按旧 30/25/20/15/10 权重计算。RSI/ATR 用 14 期简单平均，MACD 用 EMA12−EMA26，信号线为 EMA9。EMA、ATR、MACD 与价格均为复权口径，relative 是近 8 期收益百分数。日、周、月模型分别需要至少 60 根完整周期行情；它们共用规则框架，但尚未逐周期独立收益校准。
+技术指标仍包含 `raw/trend/relative/momentum/position/risk/rsi/ema20/ema50/atr/macd`。3.1 中 raw 等于最终买点 score；其余旧因子作为诊断保留，不再按旧 30/25/20/15/10 权重计算。RSI/ATR 用 14 期简单平均，MACD 用 EMA12−EMA26，信号线为 EMA9。EMA、ATR、MACD 与价格均为复权口径，relative 是近 8 期收益百分数。日、周、月模型分别需要至少 60 根完整周期行情；它们共用规则框架，但尚未逐周期独立收益校准。
 
 `rank` 对最终绝对买点分排序，并列采用平均名次；score 不随样本中其他公司的加入或行业过滤改变。CLI 只读取网站发布结果。`rank` 的技术行同样显式返回 entry、trendStrength、modelVersion、scoreMeaning 和校准状态。远期基本面仍为独立的横截面百分位模型，不能与技术买点的绝对标尺混淆。
 
-历史诊断见 [technical-validation.json](https://merliniky.github.io/meridian-us-equity-research/data/technical-validation.json)，对应仓库脚本 `scripts/export_entry_validation_history.py` 和 `scripts/validate_entry_model.mjs`。本次诊断中短期≥90分组112股次，8个交易日净平均收益约−0.360%，分数组间收益不单调，因此不能声称评分已能选出更盈利的股票。诊断使用当前成分股回看历史，存在幸存者偏差等局限；不是完整、独立的历史时点样本外验证。读取验证文件的样本、成本和限制，不仅看某个分组。`--strict` 仅验证数据约束，永远不把 actionable 提升为 true。
+历史诊断见 [technical-validation.json](https://merliniky.github.io/meridian-us-equity-research/data/technical-validation.json)，对应仓库脚本 `scripts/export_entry_validation_history.py` 和 `scripts/validate_entry_model.mjs`。当前 3.1 诊断中，短期≥90分组146股次，5个交易日净平均收益为−0.339202%，8个交易日为−0.161864%；同期 3.1 排名前10组分别为0.176095%和0.292654%。这些数字均已扣除10bp往返成本，尚未证明高分对应更高收益或分数与收益单调相关。3.0 对照文件及摘要见验证文件中的 `previousModelComparison`；阅读时核对 modelVersion，不能将不同版本的结果混用。诊断使用当前成分股回看历史，存在幸存者偏差等局限；不是完整、独立的历史时点样本外验证。读取验证文件的样本、成本和限制，不仅看某个分组。`--strict` 仅验证数据约束，永远不把 actionable 提升为 true。
 
-旧数据迁移：若该周期技术记录存在、却没有有效 3.0 entry，则 `available:false, score:null, rank:null, total:null`，错误原因 `TECHNICAL_MODEL_OUTDATED`。普通模式会附审查问题，`--strict` 退出 5；排名默认排除这些公司，`--include-unranked` 可查看原因。先升级并重新刷新网站结果，再生成新快照。只升级 CLI 不会重新计算旧存档，禁止把旧 rank.score 手工改名为买点分。
+旧数据迁移：若该周期技术记录存在、却没有有效 3.1 entry（包括仍标记 3.0 的记录），则 `available:false, score:null, rank:null, total:null`，错误原因 `TECHNICAL_MODEL_OUTDATED`。普通模式会附审查问题，`--strict` 退出 5；排名默认排除这些公司，`--include-unranked` 可查看原因。先升级并重新刷新网站结果，再生成新快照。只升级 CLI 不会重新计算旧存档，禁止把旧 rank.score 手工改名为买点分。
 
 `reportedFundamentals` 是已披露 SEC 财报；`forwardFundamentals` 含 `available/values/rank/unavailableReason`。技术分可用不代表远期分可用。
 
@@ -389,7 +389,7 @@ result = json.loads(p.stdout)
 if p.returncode != 0 or not result["ok"]:
     raise RuntimeError(result["error"])
 technical = result["data"]["technical"]["medium"]
-if not technical["available"] or technical["modelVersion"] != "3.0":
+if not technical["available"] or technical["modelVersion"] != "3.1":
     raise RuntimeError("买点模型不可用或版本过旧")
 score = technical["score"]
 entry = technical["entry"]

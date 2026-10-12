@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://merliniky.github.io/meridian-us-equity-research/cli/schema/response.schema.json",
-  "title": "Meridian CLI response v1.0 (CLI 1.1, entry model 3.0)",
+  "title": "Meridian CLI response v1.0 (CLI 1.1, entry model 3.1)",
   "type": "object",
   "required": [
     "schemaVersion",
@@ -473,12 +473,12 @@
         },
         "modelVersion": {
           "enum": [
-            "3.0",
+            "3.1",
             null
           ]
         },
         "expectedModelVersion": {
-          "const": "3.0"
+          "const": "3.1"
         },
         "scoreMeaning": {
           "const": "entry_quality"
@@ -528,7 +528,7 @@
                 "maximum": 100
               },
               "modelVersion": {
-                "const": "3.0"
+                "const": "3.1"
               }
             }
           },
@@ -728,12 +728,12 @@
               },
               "modelVersion": {
                 "enum": [
-                  "3.0",
+                  "3.1",
                   null
                 ]
               },
               "expectedModelVersion": {
-                "const": "3.0"
+                "const": "3.1"
               },
               "scoreMeaning": {
                 "const": "entry_quality"
@@ -772,7 +772,7 @@
           }
         },
         "expectedModelVersion": {
-          "const": "3.0"
+          "const": "3.1"
         },
         "scoreScale": {
           "const": "absolute_0_100"
@@ -870,7 +870,7 @@
       ],
       "properties": {
         "modelVersion": {
-          "const": "3.0"
+          "const": "3.1"
         },
         "score": {
           "type": "number",

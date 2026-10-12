@@ -57,7 +57,7 @@ export function stockView(stock, snapshot, options = {}) {
     const t = stock.technical[period], entry = entryOf(t), rank = priceCurrent && !invalidHistory && entry ? stock.ranks[period] ?? null : null;
     const available = Boolean(t && entry && rank);
     const outdated = Boolean(t && !entry);
-    if (outdated) issues.push(issue('TECHNICAL_MODEL_OUTDATED', '该周期仍是旧版强势评分，请刷新为 3.0 买点模型；旧分不可作为买入分', { symbol: stock.symbol, period }));
+    if (outdated) issues.push(issue('TECHNICAL_MODEL_OUTDATED', '该周期不是 3.1 买点模型（包括旧 3.0），请刷新；旧分不可沿用', { symbol: stock.symbol, period }));
     else if (!available) issues.push(issue('TECHNICAL_SCORE_UNAVAILABLE', '该周期缺少有效买点排名，可能为历史不足或行情未更新', { symbol: stock.symbol, period }));
     const { bars, entry: _entry, ...indicators } = t ?? {};
     technical[period] = { ...horizons[period], available, score: available ? rank.score : null, rank: available ? rank.rank : null, total: available ? rank.total : null,
@@ -113,7 +113,7 @@ export function rankView(snapshot, options = {}) {
   const eligibleCount = rows.filter(x => x.available).length;
   const offset = options.offset ?? 0, limit = options.limit ?? 20;
   const issues = eligibleCount ? [] : [issue(period === 'fundamental' ? 'FORWARD_RANK_UNAVAILABLE' : 'NO_ELIGIBLE_STOCKS', '当前筛选没有可用排名；缺失值不是 0 分')];
-  if (outdated.length) issues.push(issue('TECHNICAL_MODEL_OUTDATED', '部分股票仅有旧版强势评分，已排除；请刷新为 3.0 买点模型', { symbols: outdated.map(s => s.symbol) }));
+  if (outdated.length) issues.push(issue('TECHNICAL_MODEL_OUTDATED', '部分股票使用旧技术模型（包括 3.0），已排除；请刷新为 3.1 买点模型', { symbols: outdated.map(s => s.symbol) }));
   return { data: { period, rankScope: 'published_full_universe', sector: options.sector ?? null, eligibleCount,
     experimental: true, actionable: false, profitabilityValidated: false,
     ...(period === 'fundamental' ? { scoreMeaning: 'cross_sectional_percentile' } : technicalSemantics),

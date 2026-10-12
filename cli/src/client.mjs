@@ -2,9 +2,9 @@ import { createHash } from 'node:crypto';
 import { readFile, writeFile, rename, unlink } from 'node:fs/promises';
 import path from 'node:path';
 
-export const VERSION = '1.1.0';
+export const VERSION = '1.1.1';
 export const SCHEMA_VERSION = '1.0';
-export const TECHNICAL_MODEL_VERSION = '3.0';
+export const TECHNICAL_MODEL_VERSION = '3.1';
 export const DEFAULT_BASE_URL = 'https://meridian-us-equity-research.merliniky.chatgpt.site';
 export class CliError extends Error {
   constructor(code, message, exitCode = 3, details = null) { super(message); Object.assign(this, { code, exitCode, details }); }

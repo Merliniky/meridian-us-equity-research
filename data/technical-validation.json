@@ -1,10 +1,10 @@
 {
   "schemaVersion": "1.0",
   "kind": "meridian.entry-model-diagnostic-summary",
-  "modelVersion": "3.0",
-  "generatedAt": "2026-10-12T02:38:09.587Z",
-  "modelSha256": "ae570ef7e94a80a70f89af5992144c7d3966d4670bedc494696410739da5d057",
-  "validationScriptSha256": "0de886a2fc4bfd7ef39e00857f0f03b5ce48c5543757d97135e993d435c83a14",
+  "modelVersion": "3.1",
+  "generatedAt": "2026-10-12T06:05:23.534Z",
+  "modelSha256": "1b350368ece2aa99aa6ab9183ea1cb036441ea56268c01a28415b4b2810d7551",
+  "validationScriptSha256": "4864c9cc41c3405dd680de81b5e6f7cef163142459e50e506ccad061a2d5025a",
   "sourcePriceSha256": "faf0d4077f4c42d56bc53c4c1d6a8b9855017a36aeafc3d4ef3cd0b7759fe1da",
   "universeAsOf": "2026-09-29",
   "companyCount": 500,
@@ -46,9 +46,9 @@
       "selectedTrades": 3370,
       "pricedTrades": 3370,
       "missingForwardPrices": 0,
-      "winRatePct": 54.124629080118694,
-      "meanTradeReturnPct": 0.15997649648450324,
-      "meanMaxAdverseExcursionPct": -2.81177470481911
+      "winRatePct": 54.06528189910979,
+      "meanTradeReturnPct": 0.17609464740842412,
+      "meanMaxAdverseExcursionPct": -2.7756580204832018
     },
     {
       "group": "entryTop10",
@@ -58,32 +58,762 @@
       "pricedTrades": 3370,
       "missingForwardPrices": 0,
       "winRatePct": 54.06528189910979,
-      "meanTradeReturnPct": 0.2574012042374143,
-      "meanMaxAdverseExcursionPct": -3.6451303559542487
+      "meanTradeReturnPct": 0.2926536204347799,
+      "meanMaxAdverseExcursionPct": -3.5947233896110538
     },
     {
       "group": "entryScore90",
       "holdingSessions": 5,
       "roundTripCostBps": 10,
-      "selectedTrades": 112,
-      "pricedTrades": 112,
+      "selectedTrades": 146,
+      "pricedTrades": 146,
       "missingForwardPrices": 0,
-      "winRatePct": 45.535714285714285,
-      "meanTradeReturnPct": -0.49638540397948716,
-      "meanMaxAdverseExcursionPct": -2.713692996866449
+      "winRatePct": 45.89041095890411,
+      "meanTradeReturnPct": -0.33920178190062117,
+      "meanMaxAdverseExcursionPct": -2.607714412733058
     },
     {
       "group": "entryScore90",
       "holdingSessions": 8,
       "roundTripCostBps": 10,
-      "selectedTrades": 112,
-      "pricedTrades": 112,
+      "selectedTrades": 146,
+      "pricedTrades": 146,
       "missingForwardPrices": 0,
-      "winRatePct": 54.464285714285715,
-      "meanTradeReturnPct": -0.36041449331247793,
-      "meanMaxAdverseExcursionPct": -3.408901117532438
+      "winRatePct": 56.16438356164384,
+      "meanTradeReturnPct": -0.16186351011617625,
+      "meanMaxAdverseExcursionPct": -3.2317454665554917
     }
   ],
+  "readyMetrics": [
+    {
+      "group": "entryReady70",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "signalDates": 337,
+      "activeDates": 316,
+      "inactiveDates": 21,
+      "entirelyUnpricedDates": 0,
+      "selectedTrades": 6869,
+      "pricedTrades": 6869,
+      "missingForwardPrices": 0,
+      "winRatePct": 51.85616538069588,
+      "meanTradeReturnPct": 0.06927393721164858,
+      "medianTradeReturnPct": 0.13249998903303037,
+      "fifthPercentileTradeReturnPct": -5.934823203180901,
+      "meanMaxAdverseExcursionPct": -2.5765673277770933,
+      "fifthPercentileMaxAdverseExcursionPct": -7.523703578215484,
+      "probabilityAdverseMoveOver5Pct": 13.509972339496288,
+      "meanSignalReturnPctIncludingCash": 0.07529644490422331,
+      "meanActiveSignalReturnPct": 0.08030032257190903,
+      "positiveSignalRatePct": 51.3353115727003
+    },
+    {
+      "group": "entryReady70",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "signalDates": 337,
+      "activeDates": 316,
+      "inactiveDates": 21,
+      "entirelyUnpricedDates": 0,
+      "selectedTrades": 6869,
+      "pricedTrades": 6869,
+      "missingForwardPrices": 0,
+      "winRatePct": 52.263793856456545,
+      "meanTradeReturnPct": 0.056217855893347796,
+      "medianTradeReturnPct": 0.18197444811854932,
+      "fifthPercentileTradeReturnPct": -7.491720468761086,
+      "meanMaxAdverseExcursionPct": -3.384339294579066,
+      "fifthPercentileMaxAdverseExcursionPct": -9.831562039554276,
+      "probabilityAdverseMoveOver5Pct": 22.172077449410395,
+      "meanSignalReturnPctIncludingCash": 0.048564037642287325,
+      "meanActiveSignalReturnPct": 0.05179139457421148,
+      "positiveSignalRatePct": 51.3353115727003
+    }
+  ],
+  "scoreCohorts": [
+    {
+      "group": "entryScore90",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 146,
+      "pricedTrades": 146,
+      "missingForwardPrices": 0,
+      "winRatePct": 45.89041095890411,
+      "meanTradeReturnPct": -0.33920178190062117,
+      "meanMaxAdverseExcursionPct": -2.607714412733058
+    },
+    {
+      "group": "entryScore90",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 146,
+      "pricedTrades": 146,
+      "missingForwardPrices": 0,
+      "winRatePct": 56.16438356164384,
+      "meanTradeReturnPct": -0.16186351011617625,
+      "meanMaxAdverseExcursionPct": -3.2317454665554917
+    },
+    {
+      "group": "entryScore80to90",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 1941,
+      "pricedTrades": 1941,
+      "missingForwardPrices": 0,
+      "winRatePct": 53.32302936630603,
+      "meanTradeReturnPct": 0.11111160405167536,
+      "meanMaxAdverseExcursionPct": -2.52496499865332
+    },
+    {
+      "group": "entryScore80to90",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 1941,
+      "pricedTrades": 1941,
+      "missingForwardPrices": 0,
+      "winRatePct": 51.62287480680062,
+      "meanTradeReturnPct": 0.07970889566032609,
+      "meanMaxAdverseExcursionPct": -3.3338282619754356
+    },
+    {
+      "group": "entryScore70to80",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 4782,
+      "pricedTrades": 4782,
+      "missingForwardPrices": 0,
+      "winRatePct": 51.44291091593475,
+      "meanTradeReturnPct": 0.06476338590548009,
+      "meanMaxAdverseExcursionPct": -2.5965616076653606
+    },
+    {
+      "group": "entryScore70to80",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 4782,
+      "pricedTrades": 4782,
+      "missingForwardPrices": 0,
+      "winRatePct": 52.40485152655793,
+      "meanTradeReturnPct": 0.05334118739683689,
+      "meanMaxAdverseExcursionPct": -3.409500443298243
+    },
+    {
+      "group": "entryScore50to70",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 42227,
+      "pricedTrades": 42227,
+      "missingForwardPrices": 0,
+      "winRatePct": 52.80507732019798,
+      "meanTradeReturnPct": 0.11577069661161721,
+      "meanMaxAdverseExcursionPct": -2.6919464837397915
+    },
+    {
+      "group": "entryScore50to70",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 42227,
+      "pricedTrades": 42226,
+      "missingForwardPrices": 1,
+      "winRatePct": 53.48363567470279,
+      "meanTradeReturnPct": 0.24552598140082302,
+      "meanMaxAdverseExcursionPct": -3.4774959589847985
+    },
+    {
+      "group": "entryScoreBelow50",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 113450,
+      "pricedTrades": 113450,
+      "missingForwardPrices": 0,
+      "winRatePct": 53.60863816659321,
+      "meanTradeReturnPct": 0.23141312337183773,
+      "meanMaxAdverseExcursionPct": -3.0668457048581144
+    },
+    {
+      "group": "entryScoreBelow50",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 113450,
+      "pricedTrades": 113448,
+      "missingForwardPrices": 2,
+      "winRatePct": 55.17417671532332,
+      "meanTradeReturnPct": 0.5608459706501621,
+      "meanMaxAdverseExcursionPct": -3.9235327659800627
+    }
+  ],
+  "costSensitivity": [
+    {
+      "group": "entryTop10",
+      "holdingSessions": 5,
+      "roundTripCostBps": 0,
+      "selectedTrades": 3370,
+      "pricedTrades": 3370,
+      "missingForwardPrices": 0,
+      "winRatePct": 55.34124629080119,
+      "meanTradeReturnPct": 0.2760946474084244,
+      "meanMaxAdverseExcursionPct": -2.7756580204832018
+    },
+    {
+      "group": "entryTop10",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 3370,
+      "pricedTrades": 3370,
+      "missingForwardPrices": 0,
+      "winRatePct": 54.06528189910979,
+      "meanTradeReturnPct": 0.17609464740842412,
+      "meanMaxAdverseExcursionPct": -2.7756580204832018
+    },
+    {
+      "group": "entryTop10",
+      "holdingSessions": 5,
+      "roundTripCostBps": 25,
+      "selectedTrades": 3370,
+      "pricedTrades": 3370,
+      "missingForwardPrices": 0,
+      "winRatePct": 51.95845697329377,
+      "meanTradeReturnPct": 0.026094647408424293,
+      "meanMaxAdverseExcursionPct": -2.7756580204832018
+    },
+    {
+      "group": "entryTop10",
+      "holdingSessions": 8,
+      "roundTripCostBps": 0,
+      "selectedTrades": 3370,
+      "pricedTrades": 3370,
+      "missingForwardPrices": 0,
+      "winRatePct": 55.13353115727003,
+      "meanTradeReturnPct": 0.3926536204347787,
+      "meanMaxAdverseExcursionPct": -3.5947233896110538
+    },
+    {
+      "group": "entryTop10",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 3370,
+      "pricedTrades": 3370,
+      "missingForwardPrices": 0,
+      "winRatePct": 54.06528189910979,
+      "meanTradeReturnPct": 0.2926536204347799,
+      "meanMaxAdverseExcursionPct": -3.5947233896110538
+    },
+    {
+      "group": "entryTop10",
+      "holdingSessions": 8,
+      "roundTripCostBps": 25,
+      "selectedTrades": 3370,
+      "pricedTrades": 3370,
+      "missingForwardPrices": 0,
+      "winRatePct": 52.67062314540059,
+      "meanTradeReturnPct": 0.1426536204347803,
+      "meanMaxAdverseExcursionPct": -3.5947233896110538
+    },
+    {
+      "group": "entryReady70",
+      "holdingSessions": 5,
+      "roundTripCostBps": 0,
+      "selectedTrades": 6869,
+      "pricedTrades": 6869,
+      "missingForwardPrices": 0,
+      "winRatePct": 53.224632406463826,
+      "meanTradeReturnPct": 0.16927393721164852,
+      "meanMaxAdverseExcursionPct": -2.5765673277770933
+    },
+    {
+      "group": "entryReady70",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 6869,
+      "pricedTrades": 6869,
+      "missingForwardPrices": 0,
+      "winRatePct": 51.85616538069588,
+      "meanTradeReturnPct": 0.06927393721164858,
+      "meanMaxAdverseExcursionPct": -2.5765673277770933
+    },
+    {
+      "group": "entryReady70",
+      "holdingSessions": 5,
+      "roundTripCostBps": 25,
+      "selectedTrades": 6869,
+      "pricedTrades": 6869,
+      "missingForwardPrices": 0,
+      "winRatePct": 49.7015577231038,
+      "meanTradeReturnPct": -0.08072606278835077,
+      "meanMaxAdverseExcursionPct": -2.5765673277770933
+    },
+    {
+      "group": "entryReady70",
+      "holdingSessions": 8,
+      "roundTripCostBps": 0,
+      "selectedTrades": 6869,
+      "pricedTrades": 6869,
+      "missingForwardPrices": 0,
+      "winRatePct": 53.21007424661523,
+      "meanTradeReturnPct": 0.15621785589334714,
+      "meanMaxAdverseExcursionPct": -3.384339294579066
+    },
+    {
+      "group": "entryReady70",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 6869,
+      "pricedTrades": 6869,
+      "missingForwardPrices": 0,
+      "winRatePct": 52.263793856456545,
+      "meanTradeReturnPct": 0.056217855893347796,
+      "meanMaxAdverseExcursionPct": -3.384339294579066
+    },
+    {
+      "group": "entryReady70",
+      "holdingSessions": 8,
+      "roundTripCostBps": 25,
+      "selectedTrades": 6869,
+      "pricedTrades": 6869,
+      "missingForwardPrices": 0,
+      "winRatePct": 50.45858203523075,
+      "meanTradeReturnPct": -0.09378214410665241,
+      "meanMaxAdverseExcursionPct": -3.384339294579066
+    },
+    {
+      "group": "entryScore90",
+      "holdingSessions": 5,
+      "roundTripCostBps": 0,
+      "selectedTrades": 146,
+      "pricedTrades": 146,
+      "missingForwardPrices": 0,
+      "winRatePct": 47.26027397260274,
+      "meanTradeReturnPct": -0.23920178190062094,
+      "meanMaxAdverseExcursionPct": -2.607714412733058
+    },
+    {
+      "group": "entryScore90",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 146,
+      "pricedTrades": 146,
+      "missingForwardPrices": 0,
+      "winRatePct": 45.89041095890411,
+      "meanTradeReturnPct": -0.33920178190062117,
+      "meanMaxAdverseExcursionPct": -2.607714412733058
+    },
+    {
+      "group": "entryScore90",
+      "holdingSessions": 5,
+      "roundTripCostBps": 25,
+      "selectedTrades": 146,
+      "pricedTrades": 146,
+      "missingForwardPrices": 0,
+      "winRatePct": 41.78082191780822,
+      "meanTradeReturnPct": -0.489201781900621,
+      "meanMaxAdverseExcursionPct": -2.607714412733058
+    },
+    {
+      "group": "entryScore90",
+      "holdingSessions": 8,
+      "roundTripCostBps": 0,
+      "selectedTrades": 146,
+      "pricedTrades": 146,
+      "missingForwardPrices": 0,
+      "winRatePct": 58.21917808219178,
+      "meanTradeReturnPct": -0.06186351011617627,
+      "meanMaxAdverseExcursionPct": -3.2317454665554917
+    },
+    {
+      "group": "entryScore90",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 146,
+      "pricedTrades": 146,
+      "missingForwardPrices": 0,
+      "winRatePct": 56.16438356164384,
+      "meanTradeReturnPct": -0.16186351011617625,
+      "meanMaxAdverseExcursionPct": -3.2317454665554917
+    },
+    {
+      "group": "entryScore90",
+      "holdingSessions": 8,
+      "roundTripCostBps": 25,
+      "selectedTrades": 146,
+      "pricedTrades": 146,
+      "missingForwardPrices": 0,
+      "winRatePct": 55.47945205479452,
+      "meanTradeReturnPct": -0.3118635101161763,
+      "meanMaxAdverseExcursionPct": -3.2317454665554917
+    }
+  ],
+  "chronologicalSegments": [
+    {
+      "id": "2016-2020",
+      "firstSignalDate": "2016-01-04",
+      "lastSignalDate": "2020-12-16",
+      "signalDates": 157,
+      "excludedBoundarySignals": [
+        "2020-12-29"
+      ],
+      "metrics": [
+        {
+          "group": "legacyTop10",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 1570,
+          "pricedTrades": 1570,
+          "missingForwardPrices": 0,
+          "winRatePct": 49.681528662420384,
+          "meanTradeReturnPct": 0.00893550777404465,
+          "meanMaxAdverseExcursionPct": -3.1294351691477655
+        },
+        {
+          "group": "legacyTop10",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 1570,
+          "pricedTrades": 1570,
+          "missingForwardPrices": 0,
+          "winRatePct": 52.67515923566879,
+          "meanTradeReturnPct": 0.4827687237132744,
+          "meanMaxAdverseExcursionPct": -3.911113312749125
+        },
+        {
+          "group": "entryTop10",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 1570,
+          "pricedTrades": 1570,
+          "missingForwardPrices": 0,
+          "winRatePct": 54.140127388535035,
+          "meanTradeReturnPct": 0.13045977852407,
+          "meanMaxAdverseExcursionPct": -2.59798741669285
+        },
+        {
+          "group": "entryTop10",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 1570,
+          "pricedTrades": 1570,
+          "missingForwardPrices": 0,
+          "winRatePct": 56.30573248407644,
+          "meanTradeReturnPct": 0.3814027212947068,
+          "meanMaxAdverseExcursionPct": -3.355984925011771
+        },
+        {
+          "group": "entryReady70",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 3603,
+          "pricedTrades": 3603,
+          "missingForwardPrices": 0,
+          "winRatePct": 53.288925895087424,
+          "meanTradeReturnPct": 0.11562089151936158,
+          "meanMaxAdverseExcursionPct": -2.3115650107745314
+        },
+        {
+          "group": "entryReady70",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 3603,
+          "pricedTrades": 3603,
+          "missingForwardPrices": 0,
+          "winRatePct": 55.48154315847904,
+          "meanTradeReturnPct": 0.24886511148157192,
+          "meanMaxAdverseExcursionPct": -3.01024913550835
+        },
+        {
+          "group": "entryScore90",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 86,
+          "pricedTrades": 86,
+          "missingForwardPrices": 0,
+          "winRatePct": 46.51162790697674,
+          "meanTradeReturnPct": -0.17096611552724286,
+          "meanMaxAdverseExcursionPct": -2.2823330547388445
+        },
+        {
+          "group": "entryScore90",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 86,
+          "pricedTrades": 86,
+          "missingForwardPrices": 0,
+          "winRatePct": 63.95348837209303,
+          "meanTradeReturnPct": 0.04936656503123179,
+          "meanMaxAdverseExcursionPct": -2.8265296460147686
+        }
+      ]
+    },
+    {
+      "id": "2021-2023",
+      "firstSignalDate": "2021-01-11",
+      "lastSignalDate": "2023-12-13",
+      "signalDates": 93,
+      "excludedBoundarySignals": [
+        "2023-12-26"
+      ],
+      "metrics": [
+        {
+          "group": "legacyTop10",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 930,
+          "pricedTrades": 930,
+          "missingForwardPrices": 0,
+          "winRatePct": 50.75268817204301,
+          "meanTradeReturnPct": 0.09079979227199904,
+          "meanMaxAdverseExcursionPct": -3.465655028453489
+        },
+        {
+          "group": "legacyTop10",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 930,
+          "pricedTrades": 930,
+          "missingForwardPrices": 0,
+          "winRatePct": 52.58064516129032,
+          "meanTradeReturnPct": 0.29350165000728284,
+          "meanMaxAdverseExcursionPct": -4.247815331757099
+        },
+        {
+          "group": "entryTop10",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 930,
+          "pricedTrades": 930,
+          "missingForwardPrices": 0,
+          "winRatePct": 54.193548387096776,
+          "meanTradeReturnPct": 0.02629558588968632,
+          "meanMaxAdverseExcursionPct": -3.0933498717001906
+        },
+        {
+          "group": "entryTop10",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 930,
+          "pricedTrades": 930,
+          "missingForwardPrices": 0,
+          "winRatePct": 52.795698924731184,
+          "meanTradeReturnPct": 0.17594266849877674,
+          "meanMaxAdverseExcursionPct": -3.888417138284078
+        },
+        {
+          "group": "entryReady70",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 1665,
+          "pricedTrades": 1665,
+          "missingForwardPrices": 0,
+          "winRatePct": 47.567567567567565,
+          "meanTradeReturnPct": -0.3247433022892205,
+          "meanMaxAdverseExcursionPct": -3.0978213352641233
+        },
+        {
+          "group": "entryReady70",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 1665,
+          "pricedTrades": 1665,
+          "missingForwardPrices": 0,
+          "winRatePct": 46.366366366366364,
+          "meanTradeReturnPct": -0.47267109450634615,
+          "meanMaxAdverseExcursionPct": -3.9513679178446948
+        },
+        {
+          "group": "entryScore90",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 28,
+          "pricedTrades": 28,
+          "missingForwardPrices": 0,
+          "winRatePct": 35.714285714285715,
+          "meanTradeReturnPct": -0.968274580840066,
+          "meanMaxAdverseExcursionPct": -2.9287964342655437
+        },
+        {
+          "group": "entryScore90",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 28,
+          "pricedTrades": 28,
+          "missingForwardPrices": 0,
+          "winRatePct": 35.714285714285715,
+          "meanTradeReturnPct": -0.76771918501346,
+          "meanMaxAdverseExcursionPct": -3.6655726415298786
+        }
+      ]
+    },
+    {
+      "id": "2024-latest",
+      "firstSignalDate": "2024-01-08",
+      "lastSignalDate": "2026-09-14",
+      "signalDates": 85,
+      "excludedBoundarySignals": [],
+      "metrics": [
+        {
+          "group": "legacyTop10",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 850,
+          "pricedTrades": 850,
+          "missingForwardPrices": 0,
+          "winRatePct": 55.76470588235294,
+          "meanTradeReturnPct": 0.482430764070569,
+          "meanMaxAdverseExcursionPct": -3.3725533506176
+        },
+        {
+          "group": "legacyTop10",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 850,
+          "pricedTrades": 850,
+          "missingForwardPrices": 0,
+          "winRatePct": 51.411764705882355,
+          "meanTradeReturnPct": 0.41772982573590456,
+          "meanMaxAdverseExcursionPct": -4.777902768976225
+        },
+        {
+          "group": "entryTop10",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 850,
+          "pricedTrades": 850,
+          "missingForwardPrices": 0,
+          "winRatePct": 53.64705882352941,
+          "meanTradeReturnPct": 0.36343974039938515,
+          "meanMaxAdverseExcursionPct": -2.771079696119271
+        },
+        {
+          "group": "entryTop10",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 850,
+          "pricedTrades": 850,
+          "missingForwardPrices": 0,
+          "winRatePct": 50.8235294117647,
+          "meanTradeReturnPct": 0.1426390734937892,
+          "meanMaxAdverseExcursionPct": -3.7449062738870826
+        },
+        {
+          "group": "entryReady70",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 1561,
+          "pricedTrades": 1561,
+          "missingForwardPrices": 0,
+          "winRatePct": 52.91479820627803,
+          "meanTradeReturnPct": 0.34032226429877627,
+          "meanMaxAdverseExcursionPct": -2.6496033766896465
+        },
+        {
+          "group": "entryReady70",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 1561,
+          "pricedTrades": 1561,
+          "missingForwardPrices": 0,
+          "winRatePct": 50.60858424087124,
+          "meanTradeReturnPct": 0.0888967114919312,
+          "meanMaxAdverseExcursionPct": -3.6716384282781
+        },
+        {
+          "group": "entryScore90",
+          "holdingSessions": 5,
+          "roundTripCostBps": 10,
+          "selectedTrades": 32,
+          "pricedTrades": 32,
+          "missingForwardPrices": 0,
+          "winRatePct": 53.125,
+          "meanTradeReturnPct": -0.24089643620706042,
+          "meanMaxAdverseExcursionPct": -3.2012300435015844
+        },
+        {
+          "group": "entryScore90",
+          "holdingSessions": 8,
+          "roundTripCostBps": 10,
+          "selectedTrades": 32,
+          "pricedTrades": 32,
+          "missingForwardPrices": 0,
+          "winRatePct": 53.125,
+          "meanTradeReturnPct": -0.19942062153971227,
+          "meanMaxAdverseExcursionPct": -3.9411642061560963
+        }
+      ]
+    }
+  ],
+  "previousModelComparison": {
+    "modelVersion": "3.0",
+    "modelSha256": "ae570ef7e94a80a70f89af5992144c7d3966d4670bedc494696410739da5d057",
+    "signalDates": 337,
+    "samePriceAndUniverseSources": true,
+    "metrics": [
+      {
+        "group": "entryTop10",
+        "holdingSessions": 5,
+        "roundTripCostBps": 10,
+        "selectedTrades": 3370,
+        "pricedTrades": 3370,
+        "missingForwardPrices": 0,
+        "winRatePct": 54.124629080118694,
+        "meanTradeReturnPct": 0.15997649648450324,
+        "meanMaxAdverseExcursionPct": -2.81177470481911
+      },
+      {
+        "group": "entryTop10",
+        "holdingSessions": 8,
+        "roundTripCostBps": 10,
+        "selectedTrades": 3370,
+        "pricedTrades": 3370,
+        "missingForwardPrices": 0,
+        "winRatePct": 54.06528189910979,
+        "meanTradeReturnPct": 0.2574012042374143,
+        "meanMaxAdverseExcursionPct": -3.6451303559542487
+      },
+      {
+        "group": "entryReady70",
+        "holdingSessions": 5,
+        "roundTripCostBps": 10,
+        "selectedTrades": 5219,
+        "pricedTrades": 5219,
+        "missingForwardPrices": 0,
+        "winRatePct": 52.423835983904965,
+        "meanTradeReturnPct": 0.07415877774070036,
+        "meanMaxAdverseExcursionPct": -2.542236104560997
+      },
+      {
+        "group": "entryReady70",
+        "holdingSessions": 8,
+        "roundTripCostBps": 10,
+        "selectedTrades": 5219,
+        "pricedTrades": 5219,
+        "missingForwardPrices": 0,
+        "winRatePct": 52.059781567350065,
+        "meanTradeReturnPct": 0.031029263529703723,
+        "meanMaxAdverseExcursionPct": -3.346412027789853
+      },
+      {
+        "group": "entryScore90",
+        "holdingSessions": 5,
+        "roundTripCostBps": 10,
+        "selectedTrades": 112,
+        "pricedTrades": 112,
+        "missingForwardPrices": 0,
+        "winRatePct": 45.535714285714285,
+        "meanTradeReturnPct": -0.49638540397948716,
+        "meanMaxAdverseExcursionPct": -2.713692996866449
+      },
+      {
+        "group": "entryScore90",
+        "holdingSessions": 8,
+        "roundTripCostBps": 10,
+        "selectedTrades": 112,
+        "pricedTrades": 112,
+        "missingForwardPrices": 0,
+        "winRatePct": 54.464285714285715,
+        "meanTradeReturnPct": -0.36041449331247793,
+        "meanMaxAdverseExcursionPct": -3.408901117532438
+      }
+    ],
+    "reasonForRevision": "Replace multiplicative zero-collapse with weighted arithmetic aggregation while keeping factors, weights, caps, sources and execution assumptions fixed. This is a structural correction, not a parameter search for better historical returns."
+  },
   "dataQuality": {
     "invalidSourceBarCount": 1,
     "invalidSources": [
@@ -96,7 +826,7 @@
     "quarantineTiming": "Historical-prefix only, no future exclusion.",
     "sourceValuesRepaired": false
   },
-  "interpretation": "新规则平均最大不利波动幅度较低，但 8 日均收益低于旧规则；90 分以上组平均收益为负，尚未证明盈利优势或评分与收益的单调关系。",
+  "interpretation": "这是固定规则的历史诊断，不构成独立盈利验证或收益概率校准。必须同时查看成本、分段、回撤及不同分数区间，不能因单项改善认定模型已具备稳定盈利优势。",
   "limitations": [
     "Current 2026 constituents are used retrospectively: survivorship and index-membership look-ahead bias. Failed/delisted/excluded historical constituents are absent.",
     "Historical prices are the present adjusted history, not archived point-in-time vendor vintages; corporate-action revisions and adjusted-price return approximation may differ from realizable cash returns.",

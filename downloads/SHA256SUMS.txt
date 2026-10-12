@@ -1,1 +1,1 @@
-17ef00de8f109217a6bc056fa056a2e394f074c940c3e172f5c68ba334ba6c24  meridian-cli-1.1.0.tgz
+324c705032ad165f310dfa53eb3daa2e7da940de8d36c438e8d672dbdbe8363c  meridian-cli-1.1.1.tgz
