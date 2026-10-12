@@ -1,7 +1,9 @@
-import { CliError, SCHEMA_VERSION, VERSION } from './client.mjs';
+import { CliError, SCHEMA_VERSION, VERSION, TECHNICAL_MODEL_VERSION } from './client.mjs';
 export const PERIODS = ['short', 'medium', 'long'];
 const horizons = { short: { horizon: '5–8 days', frequency: 'day' }, medium: { horizon: '5–8 weeks', frequency: 'week' }, long: { horizon: '5–8 months', frequency: 'month' } };
 export const issue = (code, message, extra = {}) => ({ code, message, blocking: true, ...extra });
+const entryOf = t => t?.entry?.modelVersion === TECHNICAL_MODEL_VERSION ? t.entry : null;
+const technicalSemantics = { expectedModelVersion: TECHNICAL_MODEL_VERSION, scoreMeaning: 'entry_quality', scoreScale: 'absolute_0_100', calibratedProbability: false, returnCalibration: 'not_calibrated', experimental: true, actionable: false, profitabilityValidated: false };
 const normalize = (s) => String(s).normalize('NFKC').trim().toLocaleLowerCase('en-US');
 export function findStock(stocks, query) {
   const q = normalize(query);
@@ -19,12 +21,17 @@ export function metadata(archive, offline = false) {
     snapshotId: `${status.date}@${status.updatedAt}`, contentSha256: archive.sha256,
     publishedAt: status.updatedAt, priceAsOf: meta.priceAsOf, macroAsOf: research.macro.informationCutoffAt.slice(0, 10),
     macroModelVersion: research.macro.modelVersion, calculationVersion: status.calculationVersion ?? null,
-    scoreScales: { macro: [0, 10], stockRank: [0, 100] },
+    scoreScales: { macro: [0, 10], stockRank: [0, 100], stockEntry: [0, 100] },
+    technicalModelVersion: meta.technicalModelVersion ?? (stocks.stocks.some(s => PERIODS.some(p => entryOf(s.technical[p]))) ? TECHNICAL_MODEL_VERSION : null),
+    technicalModel: meta.technicalModel ?? null,
+    technicalScoreMeaning: technicalSemantics.scoreMeaning, returnCalibration: technicalSemantics.returnCalibration,
+    experimental: true, actionable: false, profitabilityValidated: false,
     informationCutoffAt: meta.informationCutoffAt, universeAsOf: meta.universeAsOf,
     companyCount: stocks.stocks.length, securityCount: meta.securityCount ?? null,
     coverage: meta.coverage ?? null, technicalPeriodEnds: meta.technicalPeriodEnds ?? null,
     reportedFundamentals: meta.reportedFundamentals ?? null,
     staleSymbols: meta.staleSymbols ?? [], sourceWarnings: status.warnings ?? [],
+    invalidTechnicalSymbols: meta.invalidTechnicalSymbols ?? [], technicalDataIssues: meta.technicalDataIssues ?? [], dataQualityIssues: meta.dataQualityIssues ?? [],
     marketFreshnessVerified: false, quality: { issues: [], requiresReview: false },
   };
 }
@@ -42,18 +49,26 @@ export function envelope(command, data, meta = {}, issues = [], options = {}) {
 export function stockView(stock, snapshot, options = {}) {
   const meta = snapshot.stocks.meta, last = stock.bars.at(-1), issues = [];
   const priceCurrent = last.date === meta.priceAsOf && !(meta.staleSymbols ?? []).includes(stock.symbol);
+  const invalidHistory = Boolean(stock.technicalExclusionReason) || (meta.invalidTechnicalSymbols ?? []).includes(stock.symbol);
+  if (invalidHistory) issues.push(issue('INVALID_PRICE_HISTORY', stock.technicalExclusionReason ?? '历史行情范围异常，全部技术周期已隔离；等待来源修复', { symbol: stock.symbol }));
   if (!priceCurrent) issues.push(issue('STALE_PRICE', '该公司没有本期收盘数据，技术排名不可用', { symbol: stock.symbol, actual: last.date, expected: meta.priceAsOf }));
   const technical = {};
   for (const period of options.period ? [options.period] : PERIODS) {
-    const t = stock.technical[period], rank = priceCurrent ? stock.ranks[period] ?? null : null;
-    const available = Boolean(t && rank);
-    if (!available) issues.push(issue('TECHNICAL_SCORE_UNAVAILABLE', '该周期缺少有效排名，可能为历史不足或行情未更新', { symbol: stock.symbol, period }));
-    const { bars, ...indicators } = t ?? {};
+    const t = stock.technical[period], entry = entryOf(t), rank = priceCurrent && !invalidHistory && entry ? stock.ranks[period] ?? null : null;
+    const available = Boolean(t && entry && rank);
+    const outdated = Boolean(t && !entry);
+    if (outdated) issues.push(issue('TECHNICAL_MODEL_OUTDATED', '该周期仍是旧版强势评分，请刷新为 3.0 买点模型；旧分不可作为买入分', { symbol: stock.symbol, period }));
+    else if (!available) issues.push(issue('TECHNICAL_SCORE_UNAVAILABLE', '该周期缺少有效买点排名，可能为历史不足或行情未更新', { symbol: stock.symbol, period }));
+    const { bars, entry: _entry, ...indicators } = t ?? {};
     technical[period] = { ...horizons[period], available, score: available ? rank.score : null, rank: available ? rank.rank : null, total: available ? rank.total : null,
+      ...technicalSemantics, modelVersion: entry?.modelVersion ?? null, entry, trendStrength: entry?.trendStrength ?? null,
+      unavailableReason: available ? null : !priceCurrent ? 'stale_price' : invalidHistory ? 'invalid_price_history' : outdated ? 'technical_model_outdated' : 'score_unavailable',
       periodEnd: t?.bars.at(-1)?.date ?? null, indicators: t ? indicators : null, ...(options.history ? { history: bars ?? [] } : {}) };
   }
   const forward = stock.fundamental ?? null, forwardRank = stock.ranks.fundamental ?? null;
   return { data: { symbol: stock.symbol, name: stock.name, aliases: stock.aliases ?? [], sector: stock.sector,
+    technicalExclusionReason: stock.technicalExclusionReason ?? null,
+    experimental: true, actionable: false, profitabilityValidated: false,
     price: { ...last, currency: 'USD', basis: 'provider_adjusted', currentWithinSnapshot: priceCurrent }, technical,
     reportedFundamentals: stock.reportedFundamentals ?? null,
     forwardFundamentals: { available: Boolean(forward && forwardRank), values: forward, rank: forwardRank,
@@ -81,18 +96,27 @@ export function rankView(snapshot, options = {}) {
     if (!sectors.includes(options.sector)) throw new CliError('SECTOR_NOT_FOUND', '行业名称未匹配，请使用返回的行业名称', 4, { sectors });
     candidates = candidates.filter(s => s.sector === options.sector);
   }
+  const outdated = period === 'fundamental' ? [] : candidates.filter(s => s.technical[period] && !entryOf(s.technical[period]) && s.bars.at(-1).date === snapshot.stocks.meta.priceAsOf && !(snapshot.stocks.meta.staleSymbols ?? []).includes(s.symbol));
   const rows = candidates.map(s => {
     const current = s.bars.at(-1).date === snapshot.stocks.meta.priceAsOf && !(snapshot.stocks.meta.staleSymbols ?? []).includes(s.symbol);
-    const rank = current ? s.ranks[period] ?? null : null;
+    const entry = period === 'fundamental' ? null : entryOf(s.technical[period]);
+    const invalidHistory = period !== 'fundamental' && (Boolean(s.technicalExclusionReason) || (snapshot.stocks.meta.invalidTechnicalSymbols ?? []).includes(s.symbol));
+    const legacy = period !== 'fundamental' && s.technical[period] && !entry;
+    const rank = current && !invalidHistory && (period === 'fundamental' || entry) ? s.ranks[period] ?? null : null;
     return { symbol: s.symbol, name: s.name, sector: s.sector, available: Boolean(rank), score: rank?.score ?? null,
+      technicalExclusionReason: s.technicalExclusionReason ?? null,
       rank: rank?.rank ?? null, total: rank?.total ?? null, priceAsOf: s.bars.at(-1).date,
+      ...(period === 'fundamental' ? {} : { entry, trendStrength: entry?.trendStrength ?? null, modelVersion: entry?.modelVersion ?? null, ...technicalSemantics }),
       periodEnd: period === 'fundamental' ? s.fundamental?.asOf ?? null : s.technical[period]?.bars.at(-1)?.date ?? null,
-      unavailableReason: rank ? null : current ? 'score_unavailable' : 'stale_price' };
+      unavailableReason: rank ? null : !current ? 'stale_price' : invalidHistory ? 'invalid_price_history' : legacy ? 'technical_model_outdated' : 'score_unavailable' };
   }).filter(s => options.includeUnranked || s.available).sort((a,b) => (a.rank ?? Infinity) - (b.rank ?? Infinity) || a.symbol.localeCompare(b.symbol));
   const eligibleCount = rows.filter(x => x.available).length;
   const offset = options.offset ?? 0, limit = options.limit ?? 20;
   const issues = eligibleCount ? [] : [issue(period === 'fundamental' ? 'FORWARD_RANK_UNAVAILABLE' : 'NO_ELIGIBLE_STOCKS', '当前筛选没有可用排名；缺失值不是 0 分')];
+  if (outdated.length) issues.push(issue('TECHNICAL_MODEL_OUTDATED', '部分股票仅有旧版强势评分，已排除；请刷新为 3.0 买点模型', { symbols: outdated.map(s => s.symbol) }));
   return { data: { period, rankScope: 'published_full_universe', sector: options.sector ?? null, eligibleCount,
+    experimental: true, actionable: false, profitabilityValidated: false,
+    ...(period === 'fundamental' ? { scoreMeaning: 'cross_sectional_percentile' } : technicalSemantics),
     excludedCount: candidates.length - eligibleCount, matchedCount: rows.length, offset, limit, items: rows.slice(offset, offset + limit) }, issues };
 }
 export function financialView(stock, snapshot) {

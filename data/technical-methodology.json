@@ -1,0 +1,31 @@
+{
+  "modelVersion": "3.0",
+  "name": "买点条件研究模型",
+  "scoreMeaning": "趋势、位置、企稳和风险条件的满足程度；不是预期收益、胜率或已验证的盈利排名",
+  "experimental": true,
+  "actionable": false,
+  "profitabilityValidated": false,
+  "source": "lib/research.ts: technical / assessEntry / rankTechnical",
+  "inputs": "截至研究截止日的完整、统一复权 OHLCV，至少60根；日/周/月分别使用对应完整周期",
+  "horizons": {"short": "5–8交易日", "medium": "5–8周", "long": "5–8月"},
+  "score": "100 × (趋势/100)^0.30 × (位置/100)^0.30 × (确认/100)^0.25 × (风险/100)^0.15，再取所有适用上限的最小值。各项为固定刻度，排序不改变分数，不强制出现0或100。",
+  "trend": "45%×clip((EMA20−EMA50)/ATR/2) +35%×clip((EMA20−5期前EMA20)/ATR/0.8) +20%×clip((收盘−EMA50)/ATR/2)，再乘100；clip范围0–1",
+  "position": {"variable": "(收盘−EMA20)/ATR", "linearInterpolation": [[-3,0],[-1.5,15],[-0.75,60],[0,100],[0.5,100],[1,75],[1.5,45],[2,20],[3,0]], "outsideRange": "采用端点分数"},
+  "confirmation": "100×[0.6×clip((收盘−上期收盘)/ATR/0.5)+0.4×clip((本期收盘在高低区间的位置−0.3)/0.5)]；确认条件额外要求本期收涨且收于区间55%以上",
+  "risk": "参考失效位=max(0,min(近5期低点,EMA20−0.5ATR)−0.25ATR)；距离R=(收盘−参考失效位)/ATR；风险质量=100×clip((4−R)/2.5)。这是结构距离，未预测上涨空间，不是完整收益风险比，也不保证止损执行。",
+  "pullback": "近5期低点相对各自EMA20的最小ATR距离在−1至0.75；近5期内相对各自之前10期高点的最大回调深度为0.6–3ATR；当前收盘距EMA20为−0.25至1.5ATR",
+  "breakout": "前5期高低区间≤3.5ATR且首尾收盘净移动≤1.2ATR；当前收盘突破前20期高点0–0.5ATR；本期成交量/之前20期均量≥1.2",
+  "caps": [
+    {"condition":"没有回调或盘整突破形态", "max":65},
+    {"condition":"没有收涨且收于振幅上部的确认", "max":60},
+    {"condition":"到参考失效位距离大于3ATR", "max":45},
+    {"condition":"距EMA20≥1.5ATR，或RSI≥75且距离≥0.75ATR", "max":55},
+    {"condition":"距EMA20≥2ATR，或RSI≥80且距离≥1ATR", "max":35},
+    {"condition":"EMA20≤EMA50，或EMA20五期斜率≤0，或价格低于EMA50", "max":35}
+  ],
+  "technicalDefinitions": "EMA递推；RSI和ATR使用14期简单平均；MACD为EMA12−EMA26，信号EMA9。RSI单独偏高不构成反转预测；需与价格位置联合限制。",
+  "missing": "无完整行情、ATR为零、关键特征无效或旧版本缺少入场特征则不评分，不补零。旧快照不展示为新模型分数。",
+  "validation": "technical-validation.json；固定规则对当前成分回溯，只是历史诊断，不是严格样本外验证。日线结果未证明分数越高收益越高；周/月尚未验证盈利有效性。",
+  "execution": "以信号收盘价评估；实际买入发生在之后，开盘跳空、滑点、流动性和财报事件需要另行检查。本模型不包含完整事件风险或实时入场复算，不能直接自动下单。",
+  "references": ["https://www.fidelity.com/learning-center/trading-investing/technical-analysis/technical-indicator-guide/RSI"]
+}

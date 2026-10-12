@@ -1,0 +1,110 @@
+{
+  "schemaVersion": "1.0",
+  "kind": "meridian.entry-model-diagnostic-summary",
+  "modelVersion": "3.0",
+  "generatedAt": "2026-10-12T02:38:09.587Z",
+  "modelSha256": "ae570ef7e94a80a70f89af5992144c7d3966d4670bedc494696410739da5d057",
+  "validationScriptSha256": "0de886a2fc4bfd7ef39e00857f0f03b5ce48c5543757d97135e993d435c83a14",
+  "sourcePriceSha256": "faf0d4077f4c42d56bc53c4c1d6a8b9855017a36aeafc3d4ef3cd0b7759fe1da",
+  "universeAsOf": "2026-09-29",
+  "companyCount": 500,
+  "signalDates": 337,
+  "firstSignalDate": "2016-01-04",
+  "lastSignalDate": "2026-09-14",
+  "outcomeDataThrough": "2026-09-29",
+  "signalSpacingMarketSessions": 8,
+  "roundTripCostBps": 10,
+  "entry": "next_session_adjusted_open",
+  "exit": "holding_session_adjusted_close",
+  "metrics": [
+    {
+      "group": "legacyTop10",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 3370,
+      "pricedTrades": 3370,
+      "missingForwardPrices": 0,
+      "winRatePct": 51.3946587537092,
+      "meanTradeReturnPct": 0.1368904206997284,
+      "meanMaxAdverseExcursionPct": -3.296234991159273
+    },
+    {
+      "group": "legacyTop10",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 3370,
+      "pricedTrades": 3370,
+      "missingForwardPrices": 0,
+      "winRatePct": 52.28486646884273,
+      "meanTradeReturnPct": 0.4196082538756516,
+      "meanMaxAdverseExcursionPct": -4.2335854021399
+    },
+    {
+      "group": "entryTop10",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 3370,
+      "pricedTrades": 3370,
+      "missingForwardPrices": 0,
+      "winRatePct": 54.124629080118694,
+      "meanTradeReturnPct": 0.15997649648450324,
+      "meanMaxAdverseExcursionPct": -2.81177470481911
+    },
+    {
+      "group": "entryTop10",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 3370,
+      "pricedTrades": 3370,
+      "missingForwardPrices": 0,
+      "winRatePct": 54.06528189910979,
+      "meanTradeReturnPct": 0.2574012042374143,
+      "meanMaxAdverseExcursionPct": -3.6451303559542487
+    },
+    {
+      "group": "entryScore90",
+      "holdingSessions": 5,
+      "roundTripCostBps": 10,
+      "selectedTrades": 112,
+      "pricedTrades": 112,
+      "missingForwardPrices": 0,
+      "winRatePct": 45.535714285714285,
+      "meanTradeReturnPct": -0.49638540397948716,
+      "meanMaxAdverseExcursionPct": -2.713692996866449
+    },
+    {
+      "group": "entryScore90",
+      "holdingSessions": 8,
+      "roundTripCostBps": 10,
+      "selectedTrades": 112,
+      "pricedTrades": 112,
+      "missingForwardPrices": 0,
+      "winRatePct": 54.464285714285715,
+      "meanTradeReturnPct": -0.36041449331247793,
+      "meanMaxAdverseExcursionPct": -3.408901117532438
+    }
+  ],
+  "dataQuality": {
+    "invalidSourceBarCount": 1,
+    "invalidSources": [
+      {
+        "symbol": "HUBB",
+        "date": "2021-05-05"
+      }
+    ],
+    "excludedCompanySignals": 169,
+    "quarantineTiming": "Historical-prefix only, no future exclusion.",
+    "sourceValuesRepaired": false
+  },
+  "interpretation": "新规则平均最大不利波动幅度较低，但 8 日均收益低于旧规则；90 分以上组平均收益为负，尚未证明盈利优势或评分与收益的单调关系。",
+  "limitations": [
+    "Current 2026 constituents are used retrospectively: survivorship and index-membership look-ahead bias. Failed/delisted/excluded historical constituents are absent.",
+    "Historical prices are the present adjusted history, not archived point-in-time vendor vintages; corporate-action revisions and adjusted-price return approximation may differ from realizable cash returns.",
+    "This rule was written after historical market outcomes were broadly known. Chronological segment reporting is diagnostic, not a clean independent out-of-sample test.",
+    "Same-date stock outcomes are correlated. Counts of stock trades are not counts of statistically independent observations; no significance claim is made.",
+    "Simple 0/10/25 bps round-trip costs do not model gap-sensitive fills, market impact, taxes, financing, inability to execute at official open, or liquidity capacity.",
+    "No earnings/event filter, next-open requalification, intraday stop execution, or fundamental/macro overlay is backtested.",
+    "The model has not been validated as a profitable trading strategy or calibrated to probability of profit. Rules will not be tuned to this run.",
+    "Only daily 5/8-session outcomes are tested here; weekly and monthly horizon profitability remains untested."
+  ]
+}

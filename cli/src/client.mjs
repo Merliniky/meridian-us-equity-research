@@ -2,8 +2,9 @@ import { createHash } from 'node:crypto';
 import { readFile, writeFile, rename, unlink } from 'node:fs/promises';
 import path from 'node:path';
 
-export const VERSION = '1.0.0';
+export const VERSION = '1.1.0';
 export const SCHEMA_VERSION = '1.0';
+export const TECHNICAL_MODEL_VERSION = '3.0';
 export const DEFAULT_BASE_URL = 'https://meridian-us-equity-research.merliniky.chatgpt.site';
 export class CliError extends Error {
   constructor(code, message, exitCode = 3, details = null) { super(message); Object.assign(this, { code, exitCode, details }); }
@@ -42,6 +43,20 @@ export function validatePayload(p) {
     for (const rank of Object.values(s.ranks)) {
       if (rank == null) continue;
       if (!Number.isFinite(rank.score) || rank.score < 0 || rank.score > 100 || (!Number.isFinite(rank.rank) || !Number.isInteger(rank.rank * 2)) || !Number.isInteger(rank.total) || rank.rank < 1 || rank.rank > rank.total) throw new CliError('INVALID_SNAPSHOT', `股票 ${s.symbol} 的排名字段无效`, 6);
+    }
+    for (const period of ['short', 'medium', 'long']) {
+      const entry = s.technical[period]?.entry;
+      if (entry?.modelVersion !== TECHNICAL_MODEL_VERSION) continue; // Read legacy archives, but views explicitly block their old scores.
+      const scores = ['score', 'trendStrength', 'positionQuality', 'confirmationQuality', 'riskQuality', 'scoreCap'];
+      if (!scores.every(k => Number.isFinite(entry[k]) && entry[k] >= 0 && entry[k] <= 100) ||
+          !['distanceAtr', 'distancePct', 'riskDistanceAtr'].every(k => Number.isFinite(entry[k])) ||
+          !(entry.referenceInvalidation === null || (Number.isFinite(entry.referenceInvalidation) && entry.referenceInvalidation > 0)) ||
+          !Array.isArray(entry.reasons) || !entry.reasons.every(x => typeof x === 'string') ||
+          !['pullback_ready', 'breakout_ready', 'overextended', 'trend_broken', 'waiting_confirmation', 'waiting_setup', 'excessive_risk'].includes(entry.status) || !['pullback', 'breakout', 'none'].includes(entry.setup) ||
+          entry.score > entry.scoreCap + 1e-8 ||
+          (s.ranks[period] && Math.abs(s.ranks[period].score - entry.score) > 1e-8)) {
+        throw new CliError('INVALID_SNAPSHOT', `股票 ${s.symbol} 的 ${period} 买点模型字段无效或与排名分不一致`, 6);
+      }
     }
   }
   return p;

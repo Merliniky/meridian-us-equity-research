@@ -1,50 +1,948 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://merliniky.github.io/meridian-us-equity-research/cli/schema/response.schema.json",
-  "title": "Meridian CLI response v1.0",
+  "title": "Meridian CLI response v1.0 (CLI 1.1, entry model 3.0)",
   "type": "object",
-  "required": ["schemaVersion", "cliVersion", "ok", "command", "meta", "data", "error"],
+  "required": [
+    "schemaVersion",
+    "cliVersion",
+    "ok",
+    "command",
+    "meta",
+    "data",
+    "error"
+  ],
   "properties": {
-    "schemaVersion": { "const": "1.0" },
-    "cliVersion": { "type": "string" },
-    "ok": { "type": "boolean" },
-    "command": { "enum": ["status", "macro", "stock", "financials", "rank", "calendar", "snapshot", "refresh", "schema", null] },
-    "meta": { "$ref": "#/$defs/meta" },
-    "data": { "type": ["object", "null"] },
-    "error": { "anyOf": [{ "type": "null" }, { "type": "object", "required": ["code", "message", "details"], "properties": { "code": { "type": "string" }, "message": { "type": "string" }, "details": {} } }] }
+    "schemaVersion": {
+      "const": "1.0"
+    },
+    "cliVersion": {
+      "type": "string"
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "command": {
+      "enum": [
+        "status",
+        "macro",
+        "stock",
+        "financials",
+        "rank",
+        "calendar",
+        "snapshot",
+        "refresh",
+        "schema",
+        null
+      ]
+    },
+    "meta": {
+      "$ref": "#/$defs/meta"
+    },
+    "data": {
+      "type": [
+        "object",
+        "null"
+      ]
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "required": [
+            "code",
+            "message",
+            "details"
+          ],
+          "properties": {
+            "code": {
+              "type": "string"
+            },
+            "message": {
+              "type": "string"
+            },
+            "details": {}
+          }
+        }
+      ]
+    }
   },
   "allOf": [
-    { "if": { "properties": { "ok": { "const": true } } }, "then": { "properties": { "error": { "type": "null" }, "data": { "type": "object" } } }, "else": { "properties": { "error": { "type": "object" } } } },
-    { "if": { "properties": { "command": { "const": "stock" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "$ref": "#/$defs/stock" } } } },
-    { "if": { "properties": { "command": { "const": "rank" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "$ref": "#/$defs/ranking" } } } },
-    { "if": { "properties": { "command": { "const": "refresh" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "type": "object", "required": ["completed", "targetClose", "publishedClose", "alreadyCurrent", "companyCount", "freshPriceCount", "excludedSymbols", "macroAsOf"] } } } },
-    { "if": { "properties": { "command": { "const": "macro" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "type": "object", "required": ["latest", "modelVersion", "informationCutoffAt", "indicators", "benchmark"], "properties": { "latest": { "type": "object", "required": ["score", "raw", "asOf"], "properties": { "score": { "$ref": "#/$defs/score" }, "raw": { "type": ["number", "null"], "minimum": 0, "maximum": 100 }, "asOf": { "$ref": "#/$defs/date" } } }, "history": { "type": "array" }, "indicators": { "type": "array" } } } } } },
-    { "if": { "properties": { "command": { "const": "financials" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "type": "object", "required": ["symbol", "name", "reported", "missingMetrics", "staleMetrics", "forward"] } } } },
-    { "if": { "properties": { "command": { "const": "calendar" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "type": "object", "required": ["from", "to", "items", "unverified"], "properties": { "items": { "type": "array" }, "unverified": { "type": "array" } } } } } }
+    {
+      "if": {
+        "properties": {
+          "ok": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "error": {
+            "type": "null"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "error": {
+            "type": "object"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "stock"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/stock"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "rank"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "$ref": "#/$defs/ranking"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "refresh"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": [
+              "completed",
+              "targetClose",
+              "publishedClose",
+              "alreadyCurrent",
+              "companyCount",
+              "freshPriceCount",
+              "excludedSymbols",
+              "macroAsOf"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "macro"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": [
+              "latest",
+              "modelVersion",
+              "informationCutoffAt",
+              "indicators",
+              "benchmark"
+            ],
+            "properties": {
+              "latest": {
+                "type": "object",
+                "required": [
+                  "score",
+                  "raw",
+                  "asOf"
+                ],
+                "properties": {
+                  "score": {
+                    "$ref": "#/$defs/score"
+                  },
+                  "raw": {
+                    "type": [
+                      "number",
+                      "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "asOf": {
+                    "$ref": "#/$defs/date"
+                  }
+                }
+              },
+              "history": {
+                "type": "array"
+              },
+              "indicators": {
+                "type": "array"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "financials"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": [
+              "symbol",
+              "name",
+              "reported",
+              "missingMetrics",
+              "staleMetrics",
+              "forward"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "command": {
+            "const": "calendar"
+          },
+          "data": {
+            "type": "object"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "data": {
+            "type": "object",
+            "required": [
+              "from",
+              "to",
+              "items",
+              "unverified"
+            ],
+            "properties": {
+              "items": {
+                "type": "array"
+              },
+              "unverified": {
+                "type": "array"
+              }
+            }
+          }
+        }
+      }
+    }
   ],
   "$defs": {
-    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
-    "score": { "type": ["number", "null"], "minimum": 0, "maximum": 10 },
-    "rankScore": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
-    "meta": { "type": "object", "properties": {
-      "baseUrl": { "type": "string" }, "readMode": { "enum": ["published_api", "snapshot_file"] },
-      "retrievedAt": { "type": "string" }, "snapshotId": { "type": "string" }, "contentSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
-      "priceAsOf": { "type": ["string", "null"] }, "macroAsOf": { "$ref": "#/$defs/date" }, "universeAsOf": { "$ref": "#/$defs/date" },
-      "marketFreshnessVerified": { "type": "boolean" }, "sourceWarnings": { "type": "array", "items": { "type": "string" } },
-      "quality": { "type": "object", "required": ["issues", "requiresReview"], "properties": { "requiresReview": { "type": "boolean" }, "issues": { "type": "array", "items": { "type": "object", "required": ["code", "message", "blocking"], "properties": { "code": { "type": "string" }, "message": { "type": "string" }, "blocking": { "type": "boolean" } } } } } }
-    } },
-    "technical": { "type": "object", "required": ["horizon", "frequency", "available", "score", "rank", "total", "periodEnd", "indicators"], "properties": {
-      "available": { "type": "boolean" }, "score": { "$ref": "#/$defs/rankScore" }, "rank": { "type": ["number", "null"], "minimum": 1, "multipleOf": 0.5 }, "total": { "type": ["integer", "null"], "minimum": 1 }, "periodEnd": { "type": ["string", "null"] }, "indicators": { "type": ["object", "null"] }, "history": { "type": "array" }
-    } },
-    "stock": { "type": "object", "required": ["symbol", "name", "aliases", "sector", "price", "technical", "reportedFundamentals", "forwardFundamentals"], "properties": {
-      "symbol": { "type": "string" }, "name": { "type": "string" }, "aliases": { "type": "array", "items": { "type": "string" } }, "sector": { "type": "string" },
-      "price": { "type": "object", "required": ["date", "close", "currency", "basis", "currentWithinSnapshot"], "properties": { "date": { "$ref": "#/$defs/date" }, "close": { "type": "number", "exclusiveMinimum": 0 }, "currency": { "const": "USD" }, "basis": { "const": "provider_adjusted" }, "currentWithinSnapshot": { "type": "boolean" } } },
-      "technical": { "type": "object", "properties": { "short": { "$ref": "#/$defs/technical" }, "medium": { "$ref": "#/$defs/technical" }, "long": { "$ref": "#/$defs/technical" } }, "additionalProperties": false },
-      "reportedFundamentals": { "type": ["object", "null"] }, "forwardFundamentals": { "type": "object", "required": ["available", "values", "rank", "unavailableReason"] }
-    } },
-    "ranking": { "type": "object", "required": ["period", "rankScope", "sector", "eligibleCount", "excludedCount", "matchedCount", "offset", "limit", "items"], "properties": {
-      "period": { "enum": ["short", "medium", "long", "fundamental"] }, "rankScope": { "const": "published_full_universe" },
-      "items": { "type": "array", "items": { "type": "object", "required": ["symbol", "name", "sector", "available", "score", "rank", "total", "priceAsOf", "periodEnd", "unavailableReason"], "properties": { "score": { "$ref": "#/$defs/rankScore" }, "rank": { "type": ["number", "null"], "minimum": 1, "multipleOf": 0.5 }, "total": { "type": ["integer", "null"], "minimum": 1 }, "available": { "type": "boolean" } } } }
-    } }
+    "date": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+    },
+    "score": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 10
+    },
+    "rankScore": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100
+    },
+    "meta": {
+      "type": "object",
+      "properties": {
+        "baseUrl": {
+          "type": "string"
+        },
+        "readMode": {
+          "enum": [
+            "published_api",
+            "snapshot_file"
+          ]
+        },
+        "retrievedAt": {
+          "type": "string"
+        },
+        "snapshotId": {
+          "type": "string"
+        },
+        "contentSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "priceAsOf": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "macroAsOf": {
+          "$ref": "#/$defs/date"
+        },
+        "universeAsOf": {
+          "$ref": "#/$defs/date"
+        },
+        "marketFreshnessVerified": {
+          "type": "boolean"
+        },
+        "sourceWarnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "quality": {
+          "type": "object",
+          "required": [
+            "issues",
+            "requiresReview"
+          ],
+          "properties": {
+            "requiresReview": {
+              "type": "boolean"
+            },
+            "issues": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "code",
+                  "message",
+                  "blocking"
+                ],
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "blocking": {
+                    "type": "boolean"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "technicalModelVersion": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "technicalScoreMeaning": {
+          "const": "entry_quality"
+        },
+        "returnCalibration": {
+          "const": "not_calibrated"
+        },
+        "experimental": {
+          "const": true
+        },
+        "actionable": {
+          "const": false
+        },
+        "profitabilityValidated": {
+          "const": false
+        }
+      }
+    },
+    "technical": {
+      "type": "object",
+      "required": [
+        "horizon",
+        "frequency",
+        "available",
+        "score",
+        "rank",
+        "total",
+        "periodEnd",
+        "indicators",
+        "entry",
+        "trendStrength",
+        "modelVersion",
+        "expectedModelVersion",
+        "scoreMeaning",
+        "scoreScale",
+        "calibratedProbability",
+        "returnCalibration",
+        "unavailableReason",
+        "experimental",
+        "actionable",
+        "profitabilityValidated"
+      ],
+      "properties": {
+        "available": {
+          "type": "boolean"
+        },
+        "score": {
+          "$ref": "#/$defs/rankScore"
+        },
+        "rank": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 1,
+          "multipleOf": 0.5
+        },
+        "total": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1
+        },
+        "periodEnd": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "indicators": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "history": {
+          "type": "array"
+        },
+        "entry": {
+          "$ref": "#/$defs/entry"
+        },
+        "trendStrength": {
+          "$ref": "#/$defs/rankScore"
+        },
+        "modelVersion": {
+          "enum": [
+            "3.0",
+            null
+          ]
+        },
+        "expectedModelVersion": {
+          "const": "3.0"
+        },
+        "scoreMeaning": {
+          "const": "entry_quality"
+        },
+        "scoreScale": {
+          "const": "absolute_0_100"
+        },
+        "calibratedProbability": {
+          "const": false
+        },
+        "returnCalibration": {
+          "const": "not_calibrated"
+        },
+        "unavailableReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "experimental": {
+          "const": true
+        },
+        "actionable": {
+          "const": false
+        },
+        "profitabilityValidated": {
+          "const": false
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "available": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "entry": {
+                "type": "object"
+              },
+              "score": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              },
+              "modelVersion": {
+                "const": "3.0"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "score": {
+                "type": "null"
+              },
+              "rank": {
+                "type": "null"
+              },
+              "total": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "stock": {
+      "type": "object",
+      "required": [
+        "symbol",
+        "name",
+        "aliases",
+        "sector",
+        "price",
+        "technical",
+        "reportedFundamentals",
+        "forwardFundamentals",
+        "experimental",
+        "actionable",
+        "profitabilityValidated"
+      ],
+      "properties": {
+        "symbol": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "aliases": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sector": {
+          "type": "string"
+        },
+        "price": {
+          "type": "object",
+          "required": [
+            "date",
+            "close",
+            "currency",
+            "basis",
+            "currentWithinSnapshot"
+          ],
+          "properties": {
+            "date": {
+              "$ref": "#/$defs/date"
+            },
+            "close": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "currency": {
+              "const": "USD"
+            },
+            "basis": {
+              "const": "provider_adjusted"
+            },
+            "currentWithinSnapshot": {
+              "type": "boolean"
+            }
+          }
+        },
+        "technical": {
+          "type": "object",
+          "properties": {
+            "short": {
+              "$ref": "#/$defs/technical"
+            },
+            "medium": {
+              "$ref": "#/$defs/technical"
+            },
+            "long": {
+              "$ref": "#/$defs/technical"
+            }
+          },
+          "additionalProperties": false
+        },
+        "reportedFundamentals": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "forwardFundamentals": {
+          "type": "object",
+          "required": [
+            "available",
+            "values",
+            "rank",
+            "unavailableReason"
+          ]
+        },
+        "experimental": {
+          "const": true
+        },
+        "actionable": {
+          "const": false
+        },
+        "profitabilityValidated": {
+          "const": false
+        },
+        "technicalExclusionReason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "ranking": {
+      "type": "object",
+      "required": [
+        "period",
+        "rankScope",
+        "sector",
+        "eligibleCount",
+        "excludedCount",
+        "matchedCount",
+        "offset",
+        "limit",
+        "items",
+        "experimental",
+        "actionable",
+        "profitabilityValidated"
+      ],
+      "properties": {
+        "period": {
+          "enum": [
+            "short",
+            "medium",
+            "long",
+            "fundamental"
+          ]
+        },
+        "rankScope": {
+          "const": "published_full_universe"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "symbol",
+              "name",
+              "sector",
+              "available",
+              "score",
+              "rank",
+              "total",
+              "priceAsOf",
+              "periodEnd",
+              "unavailableReason"
+            ],
+            "properties": {
+              "score": {
+                "$ref": "#/$defs/rankScore"
+              },
+              "rank": {
+                "type": [
+                  "number",
+                  "null"
+                ],
+                "minimum": 1,
+                "multipleOf": 0.5
+              },
+              "total": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              },
+              "available": {
+                "type": "boolean"
+              },
+              "entry": {
+                "$ref": "#/$defs/entry"
+              },
+              "trendStrength": {
+                "$ref": "#/$defs/rankScore"
+              },
+              "modelVersion": {
+                "enum": [
+                  "3.0",
+                  null
+                ]
+              },
+              "expectedModelVersion": {
+                "const": "3.0"
+              },
+              "scoreMeaning": {
+                "const": "entry_quality"
+              },
+              "scoreScale": {
+                "const": "absolute_0_100"
+              },
+              "calibratedProbability": {
+                "const": false
+              },
+              "returnCalibration": {
+                "const": "not_calibrated"
+              },
+              "unavailableReason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "experimental": {
+                "const": true
+              },
+              "actionable": {
+                "const": false
+              },
+              "profitabilityValidated": {
+                "const": false
+              },
+              "technicalExclusionReason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "expectedModelVersion": {
+          "const": "3.0"
+        },
+        "scoreScale": {
+          "const": "absolute_0_100"
+        },
+        "calibratedProbability": {
+          "const": false
+        },
+        "returnCalibration": {
+          "const": "not_calibrated"
+        },
+        "scoreMeaning": {
+          "enum": [
+            "entry_quality",
+            "cross_sectional_percentile"
+          ]
+        },
+        "experimental": {
+          "const": true
+        },
+        "actionable": {
+          "const": false
+        },
+        "profitabilityValidated": {
+          "const": false
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "period": {
+                "enum": [
+                  "short",
+                  "medium",
+                  "long"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "expectedModelVersion",
+              "scoreMeaning",
+              "scoreScale",
+              "calibratedProbability",
+              "returnCalibration",
+              "experimental",
+              "actionable",
+              "profitabilityValidated"
+            ],
+            "properties": {
+              "items": {
+                "items": {
+                  "required": [
+                    "entry",
+                    "trendStrength",
+                    "modelVersion",
+                    "expectedModelVersion",
+                    "scoreMeaning",
+                    "scoreScale",
+                    "calibratedProbability",
+                    "returnCalibration",
+                    "unavailableReason",
+                    "experimental",
+                    "actionable",
+                    "profitabilityValidated"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "entry": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "modelVersion",
+        "score",
+        "trendStrength",
+        "positionQuality",
+        "confirmationQuality",
+        "riskQuality",
+        "status",
+        "reasons",
+        "distanceAtr",
+        "distancePct",
+        "riskDistanceAtr",
+        "referenceInvalidation",
+        "setup",
+        "scoreCap"
+      ],
+      "properties": {
+        "modelVersion": {
+          "const": "3.0"
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "trendStrength": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "positionQuality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "confirmationQuality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "riskQuality": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "scoreCap": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "status": {
+          "enum": [
+            "pullback_ready",
+            "breakout_ready",
+            "overextended",
+            "trend_broken",
+            "waiting_confirmation",
+            "waiting_setup",
+            "excessive_risk"
+          ]
+        },
+        "reasons": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "distanceAtr": {
+          "type": "number"
+        },
+        "distancePct": {
+          "type": "number"
+        },
+        "riskDistanceAtr": {
+          "type": "number"
+        },
+        "referenceInvalidation": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "setup": {
+          "enum": [
+            "pullback",
+            "breakout",
+            "none"
+          ]
+        }
+      }
+    }
   }
 }

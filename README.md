@@ -17,9 +17,9 @@ GitHub Pages 副本。原网站继续保留，两处使用相同界面，并从�
 
 无需登录的 Node.js CLI，默认 JSON 输出，支持宏观、个股、排名、SEC 财报、经济日历、离线快照及手动刷新。
 
-`npm install -g https://merliniky.github.io/meridian-us-equity-research/downloads/meridian-cli-1.0.0.tgz`
+`npm install -g https://merliniky.github.io/meridian-us-equity-research/downloads/meridian-cli-1.1.0.tgz`
 
-[完整接入文档](cli/README.md) · [Agent 说明](cli/examples/AGENT_INSTRUCTIONS.md) · [Python 示例](cli/examples/agent_client.py) · [JSON Schema](cli/schema/response.schema.json) · [安装包](downloads/meridian-cli-1.0.0.tgz)
+[完整接入文档](cli/README.md) · [Agent 说明](cli/examples/AGENT_INSTRUCTIONS.md) · [Python 示例](cli/examples/agent_client.py) · [JSON Schema](cli/schema/response.schema.json) · [安装包](downloads/meridian-cli-1.1.0.tgz)
 
-宏观分为 0–10，个股排名分为 0–100。查询不自动刷新；远期基本面排名缺失时保留空值。CLI 源码与测试也在本仓库中。
+宏观分为 0–10，技术买点分为绝对 0–100（模型 3.0），另列趋势强度和样本内名次；旧模型技术分阻断，分数不是胜率。查询不自动刷新；远期基本面排名缺失时保留空值。CLI 源码与测试也在本仓库中。
 <!-- meridian-cli:end -->
