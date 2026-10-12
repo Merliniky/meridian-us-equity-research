@@ -1,0 +1,13 @@
+{
+  "name": "@merliniky/meridian-cli",
+  "version": "1.0.0",
+  "description": "Machine-readable CLI for Meridian US equity research",
+  "type": "module",
+  "bin": { "meridian": "bin/meridian.mjs" },
+  "exports": { ".": "./src/client.mjs", "./views": "./src/views.mjs", "./schema": "./schema/response.schema.json" },
+  "engines": { "node": ">=22.13.0" },
+  "files": ["bin", "src", "schema", "examples", "README.md"],
+  "scripts": { "test": "node --test test/*.test.mjs" },
+  "license": "UNLICENSED",
+  "private": true
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://merliniky.github.io/meridian-us-equity-research/cli/schema/response.schema.json",
+  "title": "Meridian CLI response v1.0",
+  "type": "object",
+  "required": ["schemaVersion", "cliVersion", "ok", "command", "meta", "data", "error"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "cliVersion": { "type": "string" },
+    "ok": { "type": "boolean" },
+    "command": { "enum": ["status", "macro", "stock", "financials", "rank", "calendar", "snapshot", "refresh", "schema", null] },
+    "meta": { "$ref": "#/$defs/meta" },
+    "data": { "type": ["object", "null"] },
+    "error": { "anyOf": [{ "type": "null" }, { "type": "object", "required": ["code", "message", "details"], "properties": { "code": { "type": "string" }, "message": { "type": "string" }, "details": {} } }] }
+  },
+  "allOf": [
+    { "if": { "properties": { "ok": { "const": true } } }, "then": { "properties": { "error": { "type": "null" }, "data": { "type": "object" } } }, "else": { "properties": { "error": { "type": "object" } } } },
+    { "if": { "properties": { "command": { "const": "stock" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "$ref": "#/$defs/stock" } } } },
+    { "if": { "properties": { "command": { "const": "rank" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "$ref": "#/$defs/ranking" } } } },
+    { "if": { "properties": { "command": { "const": "refresh" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "type": "object", "required": ["completed", "targetClose", "publishedClose", "alreadyCurrent", "companyCount", "freshPriceCount", "excludedSymbols", "macroAsOf"] } } } },
+    { "if": { "properties": { "command": { "const": "macro" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "type": "object", "required": ["latest", "modelVersion", "informationCutoffAt", "indicators", "benchmark"], "properties": { "latest": { "type": "object", "required": ["score", "raw", "asOf"], "properties": { "score": { "$ref": "#/$defs/score" }, "raw": { "type": ["number", "null"], "minimum": 0, "maximum": 100 }, "asOf": { "$ref": "#/$defs/date" } } }, "history": { "type": "array" }, "indicators": { "type": "array" } } } } } },
+    { "if": { "properties": { "command": { "const": "financials" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "type": "object", "required": ["symbol", "name", "reported", "missingMetrics", "staleMetrics", "forward"] } } } },
+    { "if": { "properties": { "command": { "const": "calendar" }, "data": { "type": "object" } } }, "then": { "properties": { "data": { "type": "object", "required": ["from", "to", "items", "unverified"], "properties": { "items": { "type": "array" }, "unverified": { "type": "array" } } } } } }
+  ],
+  "$defs": {
+    "date": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" },
+    "score": { "type": ["number", "null"], "minimum": 0, "maximum": 10 },
+    "rankScore": { "type": ["number", "null"], "minimum": 0, "maximum": 100 },
+    "meta": { "type": "object", "properties": {
+      "baseUrl": { "type": "string" }, "readMode": { "enum": ["published_api", "snapshot_file"] },
+      "retrievedAt": { "type": "string" }, "snapshotId": { "type": "string" }, "contentSha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+      "priceAsOf": { "type": ["string", "null"] }, "macroAsOf": { "$ref": "#/$defs/date" }, "universeAsOf": { "$ref": "#/$defs/date" },
+      "marketFreshnessVerified": { "type": "boolean" }, "sourceWarnings": { "type": "array", "items": { "type": "string" } },
+      "quality": { "type": "object", "required": ["issues", "requiresReview"], "properties": { "requiresReview": { "type": "boolean" }, "issues": { "type": "array", "items": { "type": "object", "required": ["code", "message", "blocking"], "properties": { "code": { "type": "string" }, "message": { "type": "string" }, "blocking": { "type": "boolean" } } } } } }
+    } },
+    "technical": { "type": "object", "required": ["horizon", "frequency", "available", "score", "rank", "total", "periodEnd", "indicators"], "properties": {
+      "available": { "type": "boolean" }, "score": { "$ref": "#/$defs/rankScore" }, "rank": { "type": ["number", "null"], "minimum": 1, "multipleOf": 0.5 }, "total": { "type": ["integer", "null"], "minimum": 1 }, "periodEnd": { "type": ["string", "null"] }, "indicators": { "type": ["object", "null"] }, "history": { "type": "array" }
+    } },
+    "stock": { "type": "object", "required": ["symbol", "name", "aliases", "sector", "price", "technical", "reportedFundamentals", "forwardFundamentals"], "properties": {
+      "symbol": { "type": "string" }, "name": { "type": "string" }, "aliases": { "type": "array", "items": { "type": "string" } }, "sector": { "type": "string" },
+      "price": { "type": "object", "required": ["date", "close", "currency", "basis", "currentWithinSnapshot"], "properties": { "date": { "$ref": "#/$defs/date" }, "close": { "type": "number", "exclusiveMinimum": 0 }, "currency": { "const": "USD" }, "basis": { "const": "provider_adjusted" }, "currentWithinSnapshot": { "type": "boolean" } } },
+      "technical": { "type": "object", "properties": { "short": { "$ref": "#/$defs/technical" }, "medium": { "$ref": "#/$defs/technical" }, "long": { "$ref": "#/$defs/technical" } }, "additionalProperties": false },
+      "reportedFundamentals": { "type": ["object", "null"] }, "forwardFundamentals": { "type": "object", "required": ["available", "values", "rank", "unavailableReason"] }
+    } },
+    "ranking": { "type": "object", "required": ["period", "rankScope", "sector", "eligibleCount", "excludedCount", "matchedCount", "offset", "limit", "items"], "properties": {
+      "period": { "enum": ["short", "medium", "long", "fundamental"] }, "rankScope": { "const": "published_full_universe" },
+      "items": { "type": "array", "items": { "type": "object", "required": ["symbol", "name", "sector", "available", "score", "rank", "total", "priceAsOf", "periodEnd", "unavailableReason"], "properties": { "score": { "$ref": "#/$defs/rankScore" }, "rank": { "type": ["number", "null"], "minimum": 1, "multipleOf": 0.5 }, "total": { "type": ["integer", "null"], "minimum": 1 }, "available": { "type": "boolean" } } } }
+    } }
+  }
+}
